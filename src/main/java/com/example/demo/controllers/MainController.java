@@ -1,11 +1,15 @@
 package com.example.demo.controllers;
 
+import com.example.demo.models.Product;
 import com.example.demo.models.User;
+import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -14,6 +18,8 @@ import java.util.Optional;
 public class MainController {
   @Autowired
   private UserRepository userRepository;
+  @Autowired
+  private ProductRepository productRepository;
 
   @PostMapping(path="/add")
   public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String email) {
@@ -27,6 +33,12 @@ public class MainController {
   @GetMapping(path="/all")
   public @ResponseBody Iterable<User> getAllUsers() {
     return userRepository.findAll();
+  }
+
+  @GetMapping(path="/products")
+  public @ResponseBody Iterable<Object> getProductsByUser() {
+    return productRepository.getProductsByUser();
+    // return productRepository.findAll();
   }
 
   @DeleteMapping(path="/delete")
